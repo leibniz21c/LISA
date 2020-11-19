@@ -1,37 +1,29 @@
 <img src="https://github.com/ndo04343/LISA/blob/main/res/LISA_logo.jpeg" width="800" height="500"><br>
 
 ### 1. What is LISA?
-리사는 한마디로 말하자면 대규모 이종 분산 연산 클러스터로 이루어진 가상 서버 시스템입니다. 이는 리눅스 OS를 기반으로하는 모든 기기를 클러스터로 가질 수 있으며, 각 노드들은 헤드 노드에 WAN을 통해서 원격으로 worker cluster로 참여할 수 있습니다. 만약, 하나의 물리적인 공간에서 클러스터가 존재하지않고, 초고속 인터넷 통신을 이용해서 전 세계적으로 클러스터가 10만대 이상 존재한다면, 네트워크 속도가 지원하는 한 어느정도 슈퍼컴퓨터의 컴퓨팅파워에 근접하는 성능을 낼 수 있다고 생각하여 만들기 시작했습니다.
+LISA is a virtual server system made up of a large-scale heterogeneous distributed computing cluster. It can have all devices based on the Linux OS as a cluster, and each node can participate as a worker cluster  through the WAN to the head node. If there are no clusters server system in one physical space, and there are more than 100,000 clusters worldwide using high-speed Internet communication, performance can close to the computing power of a supercomputer as long as the network speed supports it and well made parallel programs.
 
-> 모든 슈퍼컴퓨터는 클러스터로 구성된다.
+> All super computers are organized into clusters.
 
-하지만, 로컬입니다.
+Of course in local area.
 
-### 2. How to make LISA?
-리사 시스템을 구성하는 것은 다음과 같은 단계를 거칩니다.
-1. 각각의 노드들은 고정된 IP를 가집니다. 
-    DHCP를 끄든, 아니면 노드에 할당되는 IP는 고정 IP로 세팅을 하든.
-2. 만약 헤드 노드가 특정 공인 IP로 할당된 라우터의 서브넷에 존재한다면, 포트 포워딩 테이블을 구성하세요.
-    ssh 프로토콜사용에는 일반적으로 22번 포트를 사용합니다.
-    추가적으로 DDNS를 통해서 도메인을 할당해두는 것이 좋습니다.
-3. 각 노드에 대해서 docker 환경을 구성합니다.
-4. 헤드 노드에 대해서 docker swarm을 초기화 하고 token을 받습니다.
-    이떄 헤드노드의 swarm에 접근하는 포트 번호는 2377입니다. 이에 관해서도 포트포워딩 해두어야 합니다.
-5. 헤드 노드와 같은 서브넷에 존재하는 작업 노드는 가능하면 내부 IP를 이용하여 2377 포트로 헤드노드의 swarm에 참여합니다.
-6. 헤드 노드와 다른 네트워크에 존재하는 작업 노드는 "도메인:포트포워딩해둔 포트번호" 형식으로 헤드노드의 swarm에 참여합니다.
-<br>
-<br>
-이렇게 한다면, LISA 환경 구축이 끝납니다.<br>
-이 환경을 자동으로 구축해둘 프로그램을 첨부합니다.<br>
-lisa_master.sh<br>
-lisa_worker.sh<br>
+### 2. How to make environment of LISA?
+If you want to use LISA, you have to create environment for LISA.<br>
+Following are sequence of creating environment.<br><br>
 
-### 3. What is representative issues in LISA?
-1. 리사는 무조건 병렬식 연산 처리 프로그램에서 올바른 동작을 합니다. 만약, 병렬 프로그래밍이 되어있지 않은 프로그램이라면 아무런 효과가 없습니다.
-2. 어느정도 이상의 네트워크 속도가 지원되어야 합니다. 결국 헤드 노드가 작업 노드에게 연산 테스크를 전송하고, 연산 결과를 다시 헤드 노드가 취합하는 과정을 거치기 때문에 , 네트워크 속도가 충분히 빠르지 않다면 효과가 적어집니다.
+1. Each nodes must have fixed IP address.
+    - You have to turn off DHCP service in wireless AP environment of fix IP address.
+2. If the head node exists in subnet of router assigned by public IP, configure port forwarding table.
+    - In ssh protocol, use 22 port.<br>
+    - It can be useful to assign domain by DDNS service.
+3. Execute lisa_header.sh in head node.
+    - You have to remember token.
+4. Execute lisa_worker.sh in each worker nodes.
+    - You have to input token that gathered in 3.
 
-### 4. How to gathering resource?
-각 노드들은 저전력 CPU기반의 리눅스 시스템을 이용할 것을 권장합니다. 리소스 제공자가 LISA 시스템에 참여하면, LISA 시스템 사용자가 가지게 되는 금전적 이득에 대하여 리소스 제공자는 지분을 가지게 됩니다. 이러한 비즈니스 모델 아래에서 리소스 제공자를 획득합니다. 
+### 3. How to gathering resource?
+It is recommended that each node use a low-power CPU-based Linux system. When a resource provider participates in the LISA system, the resource provider has a stake in the monetary benefits of the user of the LISA system. Under these business models, the user can gather resource providers. 
 
-### 5. Future of LISA
-1. 만약, 양자 통신(양자 얽힘 현상을 이용한 통신방식)이 상용화가 되면 네트워크 속도의 제약이 거의 없기 떄문에, 성능이 대폭 향상 됩니다. 이때, 이를 연산 서버로 구성하지 않더라도, 초대형 용량을 가지는 파일시스템을 구축할 수 있으며, 부하 분산기능을 추가하여 초대형 서버를 구축할 수 있습니다.<br>
+### 4. Future of LISA
+1. If quantum communication(a communication method using quantum entanglement) is commercialized, there is almost no restriction on the network speed, so performance is greatly improved. At this time, even if you do not configure it as a computational server, you can build a file system with an extra-large capacity, and you can build an extra-large server by adding a load balancing function.
+2. You can put the working node as a new sub-lisa head node. If you do this, LISA have the ability to load balance computation.
