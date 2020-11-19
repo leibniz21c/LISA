@@ -12,7 +12,7 @@ If you want to use LISA, you have to create environment for LISA.<br>
 Following are sequence of creating environment.<br><br>
 
 1. Each nodes must have fixed IP address.
-    - You have to turn off DHCP service in wireless AP environment of fix IP address.
+    - You have to turn off DHCP service in wireless AP environment or fix IP address.
 2. If the head node exists in subnet of router assigned by public IP, configure port forwarding table.
     - In ssh protocol, use 22 port.<br>
     - It can be useful to assign domain by DDNS service.
