@@ -16,9 +16,9 @@ Following are sequence of creating environment.<br><br>
 2. If the head node exists in subnet of router assigned by public IP, configure port forwarding table.
     - In ssh protocol, use 22 port.<br>
     - It can be useful to assign domain by DDNS service.
-3. Execute <strong>src/lisa_constructor.sh</strong> in head node and select the "Head Node" channel.
+3. Execute <strong>"src/lisa_constructor.sh"</strong> in head node and select the "Head Node" channel.
     - You have to remember token.
-4. Execute <strong>lisa_constructor.sh</strong> in each worker nodes and select the "Worker Node" channel.
+4. Execute <strong>"src/lisa_constructor.sh"</strong> in each worker nodes and select the "Worker Node" channel.
     - You have to input token that gathered in 3. You can check the token at <strong>"token_info.txt"</strong>
 
 ### 3. How to gathering resource?
